@@ -1,0 +1,36 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+	const teams = await getCollection('teams');
+	return teams.map(team => ({
+		params: { slug: team.id },
+		props: { team },
+	}));
+}
+
+const { team } = Astro.props;
+const { Content } = await render(team);
+---
+
+<Base title={team.data.name}>
+	<h1>{team.data.name}</h1>
+	{team.data.members.length > 0 && (
+		<p>Members: {team.data.members.map((m, i) => (
+			<>
+				{i > 0 && ', '}
+				<a href={`/people/${m}`}>{m}</a>
+			</>
+		))}</p>
+	)}
+	{team.data.projects.length > 0 && (
+		<p>Projects: {team.data.projects.map((p, i) => (
+			<>
+				{i > 0 && ', '}
+				<a href={`/projects/${p}`}>{p}</a>
+			</>
+		))}</p>
+	)}
+	<Content />
+</Base>
