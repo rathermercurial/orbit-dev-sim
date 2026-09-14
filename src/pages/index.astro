@@ -1,0 +1,46 @@
+---
+import { getCollection } from 'astro:content';
+
+const people = await getCollection('people');
+const posts = await getCollection('posts');
+const projects = await getCollection('projects');
+const teams = await getCollection('teams');
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Orbit Dev Sim</title>
+	</head>
+	<body>
+		<h1>Orbit Dev Sim</h1>
+		<section>
+			<h2>People ({people.length})</h2>
+			<ul>
+				{people.map(p => <li>{p.data.name}</li>)}
+			</ul>
+		</section>
+		<section>
+			<h2>Posts ({posts.length})</h2>
+			<ul>
+				{posts.map(p => <li>{p.data.title} by {p.data.author}</li>)}
+			</ul>
+		</section>
+		<section>
+			<h2>Projects ({projects.length})</h2>
+			<ul>
+				{projects.map(p => <li>{p.data.title} — team: {p.data.team}</li>)}
+			</ul>
+		</section>
+		<section>
+			<h2>Teams ({teams.length})</h2>
+			<ul>
+				{teams.map(t => <li>{t.data.name}</li>)}
+			</ul>
+		</section>
+	</body>
+</html>
