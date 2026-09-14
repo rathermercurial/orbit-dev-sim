@@ -1,0 +1,17 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const teams = await getCollection('teams');
+---
+
+<Base title="Teams">
+	<h1>Teams</h1>
+	<ul>
+		{teams.map(team => (
+			<li>
+				<a href={`/teams/${team.id}`}>{team.data.name}</a>
+			</li>
+		))}
+	</ul>
+</Base>

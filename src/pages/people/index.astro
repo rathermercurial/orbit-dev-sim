@@ -1,0 +1,18 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const people = await getCollection('people');
+---
+
+<Base title="People">
+	<h1>People</h1>
+	<ul>
+		{people.map(person => (
+			<li>
+				<a href={`/people/${person.id}`}>{person.data.name}</a>
+				{person.data.role && <span>— {person.data.role}</span>}
+			</li>
+		))}
+	</ul>
+</Base>
