@@ -3,6 +3,15 @@ import assert from 'node:assert/strict';
 import { guardDuplicates } from '../src/lib/generateId.ts';
 
 describe('duplicate slug guard', () => {
+  it('throws on case-insensitive duplicate ids', () => {
+    const generateId = guardDuplicates('people');
+    generateId({ entry: 'Dave.md', base: new URL('file:///'), data: {} });
+    assert.throws(
+      () => generateId({ entry: 'dave.md', base: new URL('file:///'), data: {} }),
+      /Duplicate slug "dave" in collection "people"/,
+    );
+  });
+
   it('throws on duplicate ids within a collection', () => {
     const generateId = guardDuplicates('people');
     generateId({ entry: 'alice.md', base: new URL('file:///'), data: {} });

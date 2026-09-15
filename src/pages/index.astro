@@ -1,11 +1,25 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import Base from '../layouts/Base.astro';
 
 const people = await getCollection('people');
 const posts = await getCollection('posts');
 const projects = await getCollection('projects');
 const teams = await getCollection('teams');
+
+const postsWithAuthors = await Promise.all(
+	posts.map(async (post) => {
+		const author = await getEntry(post.data.author);
+		return { post, author };
+	})
+);
+
+const projectsWithTeams = await Promise.all(
+	projects.map(async (project) => {
+		const team = await getEntry(project.data.team);
+		return { project, team };
+	})
+);
 ---
 
 <Base title="Orbit Dev Sim">
@@ -19,13 +33,13 @@ const teams = await getCollection('teams');
 	<section>
 		<h2>Posts ({posts.length})</h2>
 		<ul>
-			{posts.map(p => <li><a href={`/posts/${p.id}`}>{p.data.title}</a> by {p.data.author.id}</li>)}
+			{postsWithAuthors.map(({ post, author }) => <li><a href={`/posts/${post.id}`}>{post.data.title}</a> by <a href={`/people/${post.data.author.id}`}>{author?.data.name ?? post.data.author.id}</a></li>)}
 		</ul>
 	</section>
 	<section>
 		<h2>Projects ({projects.length})</h2>
 		<ul>
-			{projects.map(p => <li><a href={`/projects/${p.id}`}>{p.data.title}</a> — team: {p.data.team.id}</li>)}
+			{projectsWithTeams.map(({ project, team }) => <li><a href={`/projects/${project.id}`}>{project.data.title}</a> — team: <a href={`/teams/${project.data.team.id}`}>{team?.data.name ?? project.data.team.id}</a></li>)}
 		</ul>
 	</section>
 	<section>

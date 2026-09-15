@@ -15,12 +15,13 @@ export function guardDuplicates(
   const inner = generateId ?? defaultGenerateId;
   return (options) => {
     const id = inner(options);
-    if (seen.has(id)) {
+    const lowerId = id.toLowerCase();
+    if (seen.has(lowerId)) {
       throw new Error(
         `Duplicate slug "${id}" in collection "${collection}"`,
       );
     }
-    seen.add(id);
+    seen.add(lowerId);
     return id;
   };
 }

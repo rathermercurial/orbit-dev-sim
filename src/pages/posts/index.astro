@@ -1,25 +1,26 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 
 const posts = await getCollection('posts');
 posts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 
-const people = await getCollection('people');
-const peopleById = new Map(people.map(p => [p.id, p]));
+const postsWithAuthors = await Promise.all(
+	posts.map(async (post) => {
+		const author = await getEntry(post.data.author);
+		return { post, author };
+	})
+);
 ---
 
 <Base title="Posts">
 	<h1>Posts</h1>
 	<ul>
-		{posts.map(post => {
-			const author = peopleById.get(post.data.author.id);
-			return (
-				<li>
-					<a href={`/posts/${post.id}`}>{post.data.title}</a>
-					<span>by <a href={`/people/${post.data.author.id}`}>{author?.data.name ?? post.data.author.id}</a></span>
-				</li>
-			);
-		})}
+		{postsWithAuthors.map(({ post, author }) => (
+			<li>
+				<a href={`/posts/${post.id}`}>{post.data.title}</a>
+				<span>by <a href={`/people/${post.data.author.id}`}>{author?.data.name ?? post.data.author.id}</a></span>
+			</li>
+		))}
 	</ul>
 </Base>
