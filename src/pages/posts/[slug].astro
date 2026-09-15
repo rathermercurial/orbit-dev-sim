@@ -16,6 +16,6 @@ const { Content } = await render(post);
 
 <Base title={post.data.title}>
 	<h1>{post.data.title}</h1>
-	<p>By <a href={`/people/${post.data.author}`}>{post.data.author}</a> on {post.data.date.toLocaleDateString()}</p>
+	<p>By <a href={`/people/${post.data.author.id}`}>{post.data.author.id}</a> on {post.data.date.toLocaleDateString()}</p>
 	<Content />
 </Base>

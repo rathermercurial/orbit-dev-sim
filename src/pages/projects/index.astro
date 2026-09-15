@@ -11,7 +11,7 @@ const projects = await getCollection('projects');
 		{projects.map(project => (
 			<li>
 				<a href={`/projects/${project.id}`}>{project.data.title}</a>
-				<span>— team: {project.data.team}</span>
+				<span>— team: {project.data.team.id}</span>
 			</li>
 		))}
 	</ul>

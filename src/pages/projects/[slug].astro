@@ -16,12 +16,12 @@ const { Content } = await render(project);
 
 <Base title={project.data.title}>
 	<h1>{project.data.title}</h1>
-	<p>Team: <a href={`/teams/${project.data.team}`}>{project.data.team}</a></p>
+	<p>Team: <a href={`/teams/${project.data.team.id}`}>{project.data.team.id}</a></p>
 	{project.data.contributors.length > 0 && (
 		<p>Contributors: {project.data.contributors.map((c, i) => (
 			<>
 				{i > 0 && ', '}
-				<a href={`/people/${c}`}>{c}</a>
+				<a href={`/people/${c.id}`}>{c.id}</a>
 			</>
 		))}</p>
 	)}

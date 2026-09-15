@@ -20,7 +20,7 @@ const { Content } = await render(team);
 		<p>Members: {team.data.members.map((m, i) => (
 			<>
 				{i > 0 && ', '}
-				<a href={`/people/${m}`}>{m}</a>
+				<a href={`/people/${m.id}`}>{m.id}</a>
 			</>
 		))}</p>
 	)}
@@ -28,7 +28,7 @@ const { Content } = await render(team);
 		<p>Projects: {team.data.projects.map((p, i) => (
 			<>
 				{i > 0 && ', '}
-				<a href={`/projects/${p}`}>{p}</a>
+				<a href={`/projects/${p.id}`}>{p.id}</a>
 			</>
 		))}</p>
 	)}

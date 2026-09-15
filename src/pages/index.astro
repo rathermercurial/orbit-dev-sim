@@ -19,13 +19,13 @@ const teams = await getCollection('teams');
 	<section>
 		<h2>Posts ({posts.length})</h2>
 		<ul>
-			{posts.map(p => <li><a href={`/posts/${p.id}`}>{p.data.title}</a> by {p.data.author}</li>)}
+			{posts.map(p => <li><a href={`/posts/${p.id}`}>{p.data.title}</a> by {p.data.author.id}</li>)}
 		</ul>
 	</section>
 	<section>
 		<h2>Projects ({projects.length})</h2>
 		<ul>
-			{projects.map(p => <li><a href={`/projects/${p.id}`}>{p.data.title}</a> — team: {p.data.team}</li>)}
+			{projects.map(p => <li><a href={`/projects/${p.id}`}>{p.data.title}</a> — team: {p.data.team.id}</li>)}
 		</ul>
 	</section>
 	<section>
