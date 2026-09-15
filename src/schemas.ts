@@ -16,6 +16,7 @@ export const projectBaseSchema = z.object({
   title: z.string(),
   team: z.string(),
   contributors: z.array(z.string()).default([]),
+  featured: z.boolean().default(false),
 });
 
 export const teamBaseSchema = z.object({

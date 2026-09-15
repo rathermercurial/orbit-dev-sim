@@ -17,7 +17,7 @@ const recentPostsWithAuthors = await Promise.all(
 	})
 );
 
-const featuredProjects = projects.slice(0, 4);
+const featuredProjects = projects.filter(p => p.data.featured);
 const projectsWithTeams = await Promise.all(
 	featuredProjects.map(async (project) => {
 		const team = await getEntry(project.data.team);
