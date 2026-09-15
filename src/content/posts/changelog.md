@@ -19,3 +19,5 @@ Initial public release of the Orbit platform. Shipped Aurora data pipeline, Sola
 Final beta before public launch. Stabilized the Nebula design system tokens. Added responsive layouts and dark mode support. Conducted accessibility audit with third-party verification.
 
 We publish release notes for every minor and major version. Patch releases are documented in the repository releases page. If you notice a discrepancy between this changelog and the actual behavior of the platform, please open an issue so we can investigate.
+
+Our release process includes automated integration tests, performance benchmarks, and a staged rollout to internal workspaces before any change reaches public availability. This discipline keeps the platform stable even as we ship new capabilities every two weeks.
