@@ -1,7 +1,7 @@
 ---
 title: Quick Start
 date: 2024-02-01
-author: bob
+author: elena-vasquez
 ---
 
 You can have your first project running on the Orbit platform in under ten minutes. This guide walks through installation, authentication, and a basic deployment so you can validate the workflow before committing to a full migration.

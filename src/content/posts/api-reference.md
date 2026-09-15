@@ -1,7 +1,7 @@
 ---
 title: API Reference
 date: 2024-05-01
-author: dave
+author: priya-sharma
 ---
 
 The Orbit API is organized around resources that correspond to the entities you manage in the platform: projects, deployments, services, metrics, and alerts. Every resource supports standard create, read, update, and delete operations through predictable REST endpoints. All requests and responses use JSON, and every successful call returns an appropriate HTTP status code.

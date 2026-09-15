@@ -1,5 +1,5 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection, render, getEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 
 export async function getStaticPaths() {
@@ -12,16 +12,20 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 const { Content } = await render(project);
+const team = await getEntry(project.data.team);
+const contributorEntries = await Promise.all(
+	project.data.contributors.map(c => getEntry(c))
+);
 ---
 
 <Base title={project.data.title}>
 	<h1>{project.data.title}</h1>
-	<p>Team: <a href={`/teams/${project.data.team.id}`}>{project.data.team.id}</a></p>
+	<p>Team: <a href={`/teams/${project.data.team.id}`}>{team?.data.name ?? project.data.team.id}</a></p>
 	{project.data.contributors.length > 0 && (
-		<p>Contributors: {project.data.contributors.map((c, i) => (
+		<p>Contributors: {contributorEntries.map((c, i) => (
 			<>
 				{i > 0 && ', '}
-				<a href={`/people/${c.id}`}>{c.id}</a>
+				<a href={`/people/${c.id}`}>{c.data.name}</a>
 			</>
 		))}</p>
 	)}

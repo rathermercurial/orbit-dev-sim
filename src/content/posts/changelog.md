@@ -1,7 +1,7 @@
 ---
 title: Changelog
 date: 2024-06-01
-author: carol
+author: james-park
 ---
 
 This changelog tracks every public release of the Orbit platform. Versions follow semantic versioning, and each entry includes a summary of features, fixes, and breaking changes alongside the contributors who shipped them.

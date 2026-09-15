@@ -3,16 +3,21 @@ import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 
 const projects = await getCollection('projects');
+const teams = await getCollection('teams');
+const teamsById = new Map(teams.map(t => [t.id, t]));
 ---
 
 <Base title="Projects">
 	<h1>Projects</h1>
 	<ul>
-		{projects.map(project => (
-			<li>
-				<a href={`/projects/${project.id}`}>{project.data.title}</a>
-				<span>— team: {project.data.team.id}</span>
-			</li>
-		))}
+		{projects.map(project => {
+			const team = teamsById.get(project.data.team.id);
+			return (
+				<li>
+					<a href={`/projects/${project.id}`}>{project.data.title}</a>
+					<span>— team: <a href={`/teams/${project.data.team.id}`}>{team?.data.name ?? project.data.team.id}</a></span>
+				</li>
+			);
+		})}
 	</ul>
 </Base>
