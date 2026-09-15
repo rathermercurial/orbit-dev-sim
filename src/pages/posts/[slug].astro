@@ -16,7 +16,15 @@ const author = await getEntry(post.data.author);
 ---
 
 <Base title={post.data.title}>
-	<h1>{post.data.title}</h1>
-	<p>By <a href={`/people/${post.data.author.id}`}>{author?.data.name ?? post.data.author.id}</a> on {post.data.date.toLocaleDateString()}</p>
-	<Content />
+	<article>
+		<header class="mb-8">
+			<h1>{post.data.title}</h1>
+			<p class="meta text-muted">
+				By <a href={`/people/${post.data.author.id}`}>{author?.data.name ?? post.data.author.id}</a>
+				&middot;
+				<time datetime={post.data.date.toISOString()}>{post.data.date.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+			</p>
+		</header>
+		<Content />
+	</article>
 </Base>

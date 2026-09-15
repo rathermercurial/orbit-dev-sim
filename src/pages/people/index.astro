@@ -7,11 +7,11 @@ const people = await getCollection('people');
 
 <Base title="People">
 	<h1>People</h1>
-	<ul>
+	<ul class="card-list grid-2">
 		{people.map(person => (
-			<li>
-				<a href={`/people/${person.id}`}>{person.data.name}</a>
-				{person.data.role && <span>— {person.data.role}</span>}
+			<li class="card">
+				<h3><a href={`/people/${person.id}`}>{person.data.name}</a></h3>
+				{person.data.role && <p class="text-muted">{person.data.role}</p>}
 			</li>
 		))}
 	</ul>

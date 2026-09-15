@@ -14,7 +14,13 @@ const { person } = Astro.props;
 ---
 
 <Base title={person.data.name}>
-	<h1>{person.data.name}</h1>
-	{person.data.role && <p>Role: {person.data.role}</p>}
-	{person.data.bio && <p>{person.data.bio}</p>}
+	<article>
+		<header class="mb-8">
+			<h1>{person.data.name}</h1>
+			{person.data.role && <p class="text-lg text-muted">{person.data.role}</p>}
+		</header>
+		{person.data.bio && (
+			<p class="text-lg">{person.data.bio}</p>
+		)}
+	</article>
 </Base>

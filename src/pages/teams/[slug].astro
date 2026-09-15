@@ -21,22 +21,33 @@ const projectEntries = await Promise.all(
 ---
 
 <Base title={team.data.name}>
-	<h1>{team.data.name}</h1>
-	{team.data.members.length > 0 && (
-		<p>Members: {memberEntries.map((m, i) => (
-			<>
-				{i > 0 && ', '}
-				<a href={`/people/${m.id}`}>{m.data.name}</a>
-			</>
-		))}</p>
-	)}
-	{team.data.projects.length > 0 && (
-		<p>Projects: {projectEntries.map((p, i) => (
-			<>
-				{i > 0 && ', '}
-				<a href={`/projects/${p.id}`}>{p.data.title}</a>
-			</>
-		))}</p>
-	)}
-	<Content />
+	<article>
+		<header class="mb-8">
+			<h1>{team.data.name}</h1>
+		</header>
+
+		{team.data.members.length > 0 && (
+			<section class="mb-8">
+				<h2>Members</h2>
+				<ul class="inline-links">
+					{memberEntries.map(m => (
+						<li><a class="tag" href={`/people/${m.id}`}>{m.data.name}</a></li>
+					))}
+				</ul>
+			</section>
+		)}
+
+		{team.data.projects.length > 0 && (
+			<section class="mb-8">
+				<h2>Projects</h2>
+				<ul class="inline-links">
+					{projectEntries.map(p => (
+						<li><a class="tag" href={`/projects/${p.id}`}>{p.data.title}</a></li>
+					))}
+				</ul>
+			</section>
+		)}
+
+		<Content />
+	</article>
 </Base>

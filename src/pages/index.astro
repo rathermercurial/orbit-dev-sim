@@ -7,45 +7,89 @@ const posts = await getCollection('posts');
 const projects = await getCollection('projects');
 const teams = await getCollection('teams');
 
-const postsWithAuthors = await Promise.all(
-	posts.map(async (post) => {
+posts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+const recentPosts = posts.slice(0, 3);
+
+const recentPostsWithAuthors = await Promise.all(
+	recentPosts.map(async (post) => {
 		const author = await getEntry(post.data.author);
 		return { post, author };
 	})
 );
 
+const featuredProjects = projects.slice(0, 4);
 const projectsWithTeams = await Promise.all(
-	projects.map(async (project) => {
+	featuredProjects.map(async (project) => {
 		const team = await getEntry(project.data.team);
 		return { project, team };
 	})
 );
 ---
 
-<Base title="Orbit Dev Sim">
-	<h1>Orbit Dev Sim</h1>
-	<section>
-		<h2>People ({people.length})</h2>
-		<ul>
-			{people.map(p => <li><a href={`/people/${p.id}`}>{p.data.name}</a></li>)}
+<Base title="Orbit — Engineering Blog & Project Hub">
+	<section class="hero">
+		<h1>Orbit</h1>
+		<p>An engineering blog and project hub from the team building open-source infrastructure for the next generation of developer tools.</p>
+	</section>
+
+	<section class="mb-12">
+		<div class="section-header">
+			<h2>Recent Posts</h2>
+			<a href="/posts">View all &rarr;</a>
+		</div>
+		<ul class="card-list">
+			{recentPostsWithAuthors.map(({ post, author }) => (
+				<li class="card">
+					<h3><a href={`/posts/${post.id}`}>{post.data.title}</a></h3>
+					<p class="meta">
+						<time datetime={post.data.date.toISOString()}>{post.data.date.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+						&middot; by <a href={`/people/${post.data.author.id}`}>{author?.data.name ?? post.data.author.id}</a>
+					</p>
+				</li>
+			))}
 		</ul>
 	</section>
-	<section>
-		<h2>Posts ({posts.length})</h2>
-		<ul>
-			{postsWithAuthors.map(({ post, author }) => <li><a href={`/posts/${post.id}`}>{post.data.title}</a> by <a href={`/people/${post.data.author.id}`}>{author?.data.name ?? post.data.author.id}</a></li>)}
+
+	<section class="mb-12">
+		<div class="section-header">
+			<h2>Featured Projects</h2>
+			<a href="/projects">View all &rarr;</a>
+		</div>
+		<ul class="card-list grid-2">
+			{projectsWithTeams.map(({ project, team }) => (
+				<li class="card">
+					<h3><a href={`/projects/${project.id}`}>{project.data.title}</a></h3>
+					<p>{project.body?.slice(0, 140).replace(/\n/g, ' ').trim()}{project.body && project.body.length > 140 ? '…' : ''}</p>
+					<p class="meta">Team: <a href={`/teams/${project.data.team.id}`}>{team?.data.name ?? project.data.team.id}</a></p>
+				</li>
+			))}
 		</ul>
 	</section>
-	<section>
-		<h2>Projects ({projects.length})</h2>
-		<ul>
-			{projectsWithTeams.map(({ project, team }) => <li><a href={`/projects/${project.id}`}>{project.data.title}</a> — team: <a href={`/teams/${project.data.team.id}`}>{team?.data.name ?? project.data.team.id}</a></li>)}
+
+	<section class="mb-12">
+		<div class="section-header">
+			<h2>Teams</h2>
+			<a href="/teams">View all &rarr;</a>
+		</div>
+		<ul class="card-list grid-3">
+			{teams.map(team => (
+				<li class="card">
+					<h3><a href={`/teams/${team.id}`}>{team.data.name}</a></h3>
+					<p class="meta">{team.data.members.length} members</p>
+				</li>
+			))}
 		</ul>
 	</section>
+
 	<section>
-		<h2>Teams ({teams.length})</h2>
-		<ul>
-			{teams.map(t => <li><a href={`/teams/${t.id}`}>{t.data.name}</a></li>)}
+		<div class="section-header">
+			<h2>People</h2>
+			<a href="/people">View all &rarr;</a>
+		</div>
+		<ul class="inline-links">
+			{people.map(person => (
+				<li><a class="tag" href={`/people/${person.id}`}>{person.data.name}</a></li>
+			))}
 		</ul>
 	</section>
 </Base>

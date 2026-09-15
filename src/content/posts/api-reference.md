@@ -13,3 +13,16 @@ The API uses cursor-based pagination for list endpoints. Each paginated response
 For long-running operations, such as fleet deployments or bulk imports, the API returns a job identifier immediately. You can poll the jobs endpoint for status updates or register a webhook to receive notifications when the operation completes.
 
 Error responses follow a consistent structure with a machine-readable code, a human-readable message, and optional field-level details for validation failures. Refer to the error catalog for specific remediation steps.
+
+```json
+GET /v2/projects?page_size=10
+Authorization: Bearer orb_tok_xxxxxxxx
+
+{
+  "data": [
+    { "id": "proj_01", "name": "Aurora", "region": "us-east" }
+  ],
+  "next_cursor": "c21hcnQtcGFn",
+  "total_count": 42
+}
+```
