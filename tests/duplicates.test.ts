@@ -1,37 +1,53 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import {
-  getSlugs,
-  findDuplicates,
-  checkDuplicateSlugs,
-} from '../src/lib/checkDuplicates.ts';
+import { guardDuplicates } from '../src/lib/generateId.ts';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const CONTENT_DIR = path.join(__dirname, '..', 'src', 'content');
-
-describe('duplicate slug detection', () => {
-  it('detects case-insensitive duplicate slugs', () => {
-    const slugs = [
-      { slug: 'dave', file: 'dave.md' },
-      { slug: 'Dave', file: 'Dave.md' },
-    ];
-    const dups = findDuplicates(slugs);
-    assert.ok(dups.has('dave'), 'Expected duplicate for dave');
-    assert.deepStrictEqual(dups.get('dave'), ['dave.md', 'Dave.md']);
+describe('duplicate slug guard', () => {
+  it('throws on case-insensitive duplicate ids', () => {
+    const generateId = guardDuplicates('people');
+    generateId({ entry: 'Dave.md', base: new URL('file:///'), data: {} });
+    assert.throws(
+      () => generateId({ entry: 'dave.md', base: new URL('file:///'), data: {} }),
+      /Duplicate slug "dave" in collection "people"/,
+    );
   });
 
-  it('allows unique slugs', () => {
-    const slugs = [
-      { slug: 'alice', file: 'alice.md' },
-      { slug: 'bob', file: 'bob.md' },
-    ];
-    const dups = findDuplicates(slugs);
-    assert.strictEqual(dups.size, 0);
+  it('throws on duplicate ids within a collection', () => {
+    const generateId = guardDuplicates('people');
+    generateId({ entry: 'alice.md', base: new URL('file:///'), data: {} });
+    assert.throws(
+      () => generateId({ entry: 'alice.md', base: new URL('file:///'), data: {} }),
+      /Duplicate slug "alice" in collection "people"/,
+    );
   });
 
-  it('no duplicate slugs in any content collection', () => {
-    checkDuplicateSlugs(CONTENT_DIR);
+  it('allows unique ids', () => {
+    const generateId = guardDuplicates('people');
+    assert.doesNotThrow(() =>
+      generateId({ entry: 'alice.md', base: new URL('file:///'), data: {} }),
+    );
+    assert.doesNotThrow(() =>
+      generateId({ entry: 'bob.md', base: new URL('file:///'), data: {} }),
+    );
+  });
+
+  it('uses data.slug when present', () => {
+    const generateId = guardDuplicates('posts');
+    generateId({ entry: '01-hello.md', base: new URL('file:///'), data: { slug: 'hello' } });
+    assert.throws(
+      () => generateId({ entry: '02-hello.md', base: new URL('file:///'), data: { slug: 'hello' } }),
+      /Duplicate slug "hello" in collection "posts"/,
+    );
+  });
+
+  it('isolates collections', () => {
+    const peopleGen = guardDuplicates('people');
+    const teamsGen = guardDuplicates('teams');
+    assert.doesNotThrow(() =>
+      peopleGen({ entry: 'engineering.md', base: new URL('file:///'), data: {} }),
+    );
+    assert.doesNotThrow(() =>
+      teamsGen({ entry: 'engineering.md', base: new URL('file:///'), data: {} }),
+    );
   });
 });

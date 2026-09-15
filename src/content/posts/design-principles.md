@@ -1,7 +1,7 @@
 ---
 title: Design Principles
 date: 2024-03-01
-author: eve
+author: david-okonkwo
 ---
 
 Every interface we ship is governed by a short list of non-negotiable principles. These rules are not decorative; they shape architectural decisions, component APIs, and the everyday experience of the people who use our products.

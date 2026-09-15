@@ -1,5 +1,5 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection, render, getEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 
 export async function getStaticPaths() {
@@ -12,10 +12,11 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+const author = await getEntry(post.data.author);
 ---
 
 <Base title={post.data.title}>
 	<h1>{post.data.title}</h1>
-	<p>By <a href={`/people/${post.data.author}`}>{post.data.author}</a> on {post.data.date.toLocaleDateString()}</p>
+	<p>By <a href={`/people/${post.data.author.id}`}>{author?.data.name ?? post.data.author.id}</a> on {post.data.date.toLocaleDateString()}</p>
 	<Content />
 </Base>

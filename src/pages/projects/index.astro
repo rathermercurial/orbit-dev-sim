@@ -1,17 +1,24 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 
 const projects = await getCollection('projects');
+
+const projectsWithTeams = await Promise.all(
+	projects.map(async (project) => {
+		const team = await getEntry(project.data.team);
+		return { project, team };
+	})
+);
 ---
 
 <Base title="Projects">
 	<h1>Projects</h1>
 	<ul>
-		{projects.map(project => (
+		{projectsWithTeams.map(({ project, team }) => (
 			<li>
 				<a href={`/projects/${project.id}`}>{project.data.title}</a>
-				<span>— team: {project.data.team}</span>
+				<span>— team: <a href={`/teams/${project.data.team.id}`}>{team?.data.name ?? project.data.team.id}</a></span>
 			</li>
 		))}
 	</ul>
