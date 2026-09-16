@@ -7,10 +7,11 @@ const teams = await getCollection('teams');
 
 <Base title="Teams">
 	<h1>Teams</h1>
-	<ul>
+	<ul class="card-list grid-2">
 		{teams.map(team => (
-			<li>
-				<a href={`/teams/${team.id}`}>{team.data.name}</a>
+			<li class="card">
+				<h3><a href={`/teams/${team.id}`}>{team.data.name}</a></h3>
+				<p class="meta">{team.data.members.length} members &middot; {team.data.projects.length} projects</p>
 			</li>
 		))}
 	</ul>

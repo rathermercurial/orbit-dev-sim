@@ -19,15 +19,23 @@ const contributorEntries = await Promise.all(
 ---
 
 <Base title={project.data.title}>
-	<h1>{project.data.title}</h1>
-	<p>Team: <a href={`/teams/${project.data.team.id}`}>{team?.data.name ?? project.data.team.id}</a></p>
-	{project.data.contributors.length > 0 && (
-		<p>Contributors: {contributorEntries.map((c, i) => (
-			<>
-				{i > 0 && ', '}
-				<a href={`/people/${c.id}`}>{c.data.name}</a>
-			</>
-		))}</p>
-	)}
-	<Content />
+	<article>
+		<header class="mb-8">
+			<h1>{project.data.title}</h1>
+			<p class="meta">
+				Team: <a href={`/teams/${project.data.team.id}`}>{team?.data.name ?? project.data.team.id}</a>
+			</p>
+			{project.data.contributors.length > 0 && (
+				<p class="meta">
+					Contributors: {contributorEntries.map((c, i) => (
+						<>
+							{i > 0 && ', '}
+							<a href={`/people/${c.id}`}>{c.data.name}</a>
+						</>
+					))}
+				</p>
+			)}
+		</header>
+		<Content />
+	</article>
 </Base>

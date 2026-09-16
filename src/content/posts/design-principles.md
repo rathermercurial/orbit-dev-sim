@@ -13,3 +13,18 @@ Second, clarity beats density. We would rather show fewer elements with precise 
 Third, performance is an experience. A slow interface creates frustration regardless of how beautiful it looks. We budget animation frames, optimize asset delivery, and design states for every network condition so that the product feels responsive even on constrained connections.
 
 These principles live in the Nebula design system and are enforced through automated tests, peer review, and regular audits. If you are building on our platform, you inherit these standards by default.
+
+```css
+:root {
+  --color-primary: #2563eb;
+  --color-surface: #ffffff;
+  --color-text: #0f172a;
+  --space-md: 1rem;
+  --radius-sm: 0.375rem;
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+```

@@ -1,6 +1,7 @@
 ---
 title: Nebula
 team: design
+featured: true
 contributors:
   - james-park
   - david-okonkwo

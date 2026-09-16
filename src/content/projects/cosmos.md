@@ -1,6 +1,7 @@
 ---
 title: Cosmos
 team: content
+featured: true
 contributors:
   - priya-sharma
   - marcus-chen

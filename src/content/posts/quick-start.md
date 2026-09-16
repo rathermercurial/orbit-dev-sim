@@ -12,4 +12,15 @@ Next, authenticate with your account credentials. The CLI will open a browser wi
 
 Create your first project by running `orbit init`. The wizard asks for a project name, selects a region, and provisions a minimal configuration file. Review the generated manifest, then run `orbit deploy` to push your first build. The deployment typically completes within ninety seconds.
 
+```bash
+# Install the CLI
+curl -sSL https://install.orbit.dev | bash
+orbit version
+
+# Authenticate and create a project
+orbit login
+orbit init --name my-project --region us-east
+orbit deploy
+```
+
 Once the deployment finishes, open the provided URL to see your application running. From here you can add monitoring, connect a custom domain, and invite team members. When you are ready for production, read the API Reference for advanced configuration options.

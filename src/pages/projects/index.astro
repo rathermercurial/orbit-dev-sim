@@ -14,11 +14,12 @@ const projectsWithTeams = await Promise.all(
 
 <Base title="Projects">
 	<h1>Projects</h1>
-	<ul>
+	<ul class="card-list grid-2">
 		{projectsWithTeams.map(({ project, team }) => (
-			<li>
-				<a href={`/projects/${project.id}`}>{project.data.title}</a>
-				<span>— team: <a href={`/teams/${project.data.team.id}`}>{team?.data.name ?? project.data.team.id}</a></span>
+			<li class="card">
+				<h3><a href={`/projects/${project.id}`}>{project.data.title}</a></h3>
+				<p>{project.body?.slice(0, 180).replace(/\n/g, ' ').trim()}{project.body && project.body.length > 180 ? '…' : ''}</p>
+				<p class="meta">Team: <a href={`/teams/${project.data.team.id}`}>{team?.data.name ?? project.data.team.id}</a></p>
 			</li>
 		))}
 	</ul>

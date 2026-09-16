@@ -13,3 +13,5 @@ We are also shipping the new Stellar content distribution network integration. D
 Finally, the Solar monitoring dashboard now supports custom alert thresholds based on anomaly detection rather than static values. This reduces alert fatigue for teams with seasonal traffic patterns and makes on-call rotations more sustainable.
 
 Breaking changes are limited to the deprecated v1 jobs endpoint, which will be removed in version 1.4.0. Migration takes about fifteen minutes for most integrations. See the changelog for the full list of changes.
+
+We recommend reading the deployment guide before upgrading production workloads. The guide covers manifest changes, environment variable migrations, and rollback procedures. As always, our support team is available to answer questions and review migration plans.

@@ -1,6 +1,7 @@
 ---
 title: Orbit
 team: engineering
+featured: true
 contributors:
   - marcus-chen
   - elena-vasquez

@@ -1,6 +1,7 @@
 ---
 title: Aurora
 team: engineering
+featured: true
 contributors:
   - james-park
   - priya-sharma
